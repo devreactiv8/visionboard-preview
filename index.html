@@ -6,6 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vision Board Game (Mobile)</title>
     <style>
+
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+.tutorial-container {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+.tutorial-slide {
+    display: none;
+}
+
+.tutorial-slide.active {
+    display: block;
+}
+
+.tutorial-slide img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.tutorial-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.tutorial-navigation button {
+    background: #6c63ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.tutorial-navigation button:hover {
+    opacity: 0.9;
+}
         body {
             margin: 0;
             padding: 0;
@@ -307,6 +364,54 @@
 </head>
 <body>
     <div class="vision-board-container">
+
+<div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-container">
+        <div class="tutorial-slide active" data-slide="1">
+            <h2>Welcome to Your Vision Board!</h2>
+            <img src="
+
+data:image/png;base64,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
+
+
+" alt="Search Tutorial" width=30px/>
+            <p>Create your dream board by adding inspiring images.</p>
+            <div class="tutorial-navigation">
+                <button class="tutorial-next">Next</button>
+            </div>
+        </div>
+        
+        <div class="tutorial-slide" data-slide="2">
+            <h2>Search for Images</h2>
+            <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search Tutorial" width=30px/>
+            <p>Tap the search icon to find images. Use suggestions or type your own search.</p>
+            <div class="tutorial-navigation">
+                <button class="tutorial-prev">Previous</button>
+                <button class="tutorial-next">Next</button>
+            </div>
+        </div>
+        
+        <div class="tutorial-slide" data-slide="3">
+            <h2>Customise Your Images</h2>
+                        <p>Drag images to move them. Use the resize handle to adjust size.</p>
+            <div class="tutorial-navigation">
+                <button class="tutorial-prev">Previous</button>
+                <button class="tutorial-next">Next</button>
+            </div>
+        </div>
+        
+        <div class="tutorial-slide" data-slide="4">
+            <h2>Delete and Download</h2>
+            <img src="https://cdn-icons-png.flaticon.com/512/3096/3096673.png" alt="Delete and Download Tutorial" width=30px/>
+            <p>Tap the delete icon to remove images. Download your board when ready!</p>
+            <div class="tutorial-navigation">
+                <button class="tutorial-prev">Previous</button>
+                <button class="tutorial-finish">Got It!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
         <div class="delete-mode-active" id="deleteModeIndicator">
             Select images to delete
         </div>
@@ -746,6 +851,63 @@ async function downloadVisionBoard() {
 downloadIcon.addEventListener('click', () => {
     showPaywall('download');
 });
+
+// Tutorial Functionality
+const tutorialOverlay = document.getElementById('tutorialOverlay');
+const tutorialSlides = document.querySelectorAll('.tutorial-slide');
+const tutorialNextButtons = document.querySelectorAll('.tutorial-next');
+const tutorialPrevButtons = document.querySelectorAll('.tutorial-prev');
+const tutorialFinishButton = document.querySelector('.tutorial-finish');
+let currentSlide = 1;
+
+function showTutorial() {
+    // Check if tutorial has been seen before
+    const tutorialSeen = localStorage.getItem('visionBoardTutorialSeen');
+    if (!tutorialSeen) {
+        tutorialOverlay.style.display = 'flex';
+    }
+}
+
+function changeSlide(direction) {
+    // Hide current slide
+    const currentSlideEl = document.querySelector(`.tutorial-slide[data-slide="${currentSlide}"]`);
+    currentSlideEl.classList.remove('active');
+
+    // Update slide number
+    if (direction === 'next') {
+        currentSlide = currentSlide < 4 ? currentSlide + 1 : 4;
+    } else {
+        currentSlide = currentSlide > 1 ? currentSlide - 1 : 1;
+    }
+
+    // Show new slide
+    const newSlideEl = document.querySelector(`.tutorial-slide[data-slide="${currentSlide}"]`);
+    newSlideEl.classList.add('active');
+}
+
+// Event listeners for tutorial navigation
+tutorialNextButtons.forEach(button => {
+    button.addEventListener('click', () => changeSlide('next'));
+});
+
+tutorialPrevButtons.forEach(button => {
+    button.addEventListener('click', () => changeSlide('prev'));
+});
+
+tutorialFinishButton.addEventListener('click', () => {
+    tutorialOverlay.style.display = 'none';
+    // Mark tutorial as seen
+    localStorage.setItem('visionBoardTutorialSeen', 'true');
+});
+
+// Show tutorial on first load
+window.addEventListener('load', showTutorial);
+
+// Option to reset tutorial (you can add a button or method for this if needed)
+function resetTutorial() {
+    localStorage.removeItem('visionBoardTutorialSeen');
+    showTutorial();
+}
 
 // Upgrade button event listener
 upgradeButton.addEventListener('click', () => {
